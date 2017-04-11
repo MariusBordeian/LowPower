@@ -4,6 +4,7 @@ static Window *window;
 static TextLayer *time_layer;
 static Layer *battery_layer;
 static int s_battery_level;
+static bool first = true;
 
 static void update_time() {
   time_t temp = time(NULL);
@@ -18,7 +19,6 @@ static void update_time() {
 static void battery_update_proc(Layer *layer, GContext *ctx) {
   GRect bounds = layer_get_bounds(layer);
 
-  // Find the width of the bar (total width = 114px)
   int width = (s_battery_level * bounds.size.w) / 100;
 
   // Draw the background
@@ -33,9 +33,13 @@ static void battery_update_proc(Layer *layer, GContext *ctx) {
 static void click_handler(ClickRecognizerRef recognizer, void *context) {
   BatteryChargeState state = battery_state_service_peek();
   s_battery_level = state.charge_percent;
+  layer_mark_dirty(battery_layer);
   
-  //update_battery();
-  update_time();  
+  if (first) {
+    text_layer_set_font(time_layer, fonts_get_system_font(FONT_KEY_LECO_42_NUMBERS));
+    first = false;
+  }
+  update_time();
 }
 
 static void click_config_provider(void *context) {
@@ -59,8 +63,6 @@ static void window_load(Window *window) {
   
   layer_add_child(window_layer, text_layer_get_layer(time_layer));
   layer_add_child(window_layer, battery_layer);
-  
-  layer_mark_dirty(battery_layer);
 }
 
 static void window_unload(Window *window) {
