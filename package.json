@@ -1,0 +1,24 @@
+{
+    "author": "m.bordeian@gmail.com",
+    "dependencies": {},
+    "keywords": [],
+    "name": "lowpower",
+    "pebble": {
+        "displayName": "LowPower",
+        "enableMultiJS": true,
+        "messageKeys": [],
+        "projectType": "native",
+        "resources": {
+            "media": []
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "diorite"
+        ],
+        "uuid": "0692efc7-921a-45b1-b4ab-78b6813a00d3",
+        "watchapp": {
+            "watchface": false
+        }
+    },
+    "version": "1.0.0"
+}
